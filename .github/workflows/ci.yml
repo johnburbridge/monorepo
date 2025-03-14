@@ -1,0 +1,112 @@
+name: Bazel CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+    
+    - name: Mount Bazel cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/bazel
+          ~/.cache/bazel-repo
+        key: ${{ runner.os }}-bazel-${{ hashFiles('MODULE.bazel', 'WORKSPACE', '.bazelrc', '.bazelversion') }}
+        restore-keys: |
+          ${{ runner.os }}-bazel-
+    
+    - name: Install Bazelisk
+      run: |
+        curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.18.0/bazelisk-linux-amd64"
+        chmod +x bazelisk-linux-amd64
+        sudo mv bazelisk-linux-amd64 /usr/local/bin/bazel
+    
+    - name: Build all targets
+      run: |
+        bazel build //...
+    
+    - name: Run all tests
+      run: |
+        bazel test //... --test_output=errors
+    
+    - name: Verify formatting
+      run: |
+        # Add formatting checks if needed
+        # For example: bazel run //:buildifier.check
+    
+    - name: Upload test logs
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-logs
+        path: |
+          bazel-testlogs/
+        retention-days: 7
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+    
+    - name: Install Buildifier
+      run: |
+        go install github.com/bazelbuild/buildtools/buildifier@latest
+    
+    - name: Lint Bazel files
+      run: |
+        buildifier -mode=check -lint=warn -r .
+    
+    - name: Install Python linting tools
+      run: |
+        pip install pylint black
+    
+    - name: Lint Python files
+      run: |
+        pylint $(find . -name "*.py" -not -path "./bazel-*/*")
+        black --check $(find . -name "*.py" -not -path "./bazel-*/*")
+    
+    - name: Install Kotlin linting tools
+      run: |
+        # Install ktlint
+        curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.48.2/ktlint
+        chmod +x ktlint
+        sudo mv ktlint /usr/local/bin/
+    
+    - name: Lint Kotlin files
+      run: |
+        ktlint "**/*.kt" --reporter=plain
