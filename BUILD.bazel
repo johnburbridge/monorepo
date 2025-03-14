@@ -1,0 +1,26 @@
+load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
+
+package(default_visibility = ["//visibility:public"])
+
+# Buildifier target for formatting Bazel files
+sh_binary(
+    name = "buildifier",
+    srcs = ["buildifier.sh"],
+)
+
+# Buildifier check target (for CI)
+sh_binary(
+    name = "buildifier.check",
+    srcs = ["buildifier.check.sh"],
+)
+
+# Workspace-wide settings and flags can be added here
+string_flag(
+    name = "environment",
+    build_setting_default = "dev",
+    values = [
+        "dev",
+        "test",
+        "prod",
+    ],
+)

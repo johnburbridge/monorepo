@@ -96,7 +96,7 @@ jobs:
     
     - name: Lint Bazel files
       run: |
-        buildifier -mode=check -lint=warn -r .
+        bazel run //:buildifier.check
     
     - name: Install Python linting tools
       run: |
