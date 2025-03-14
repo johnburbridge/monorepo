@@ -5,6 +5,12 @@
 # For more details, please check https://github.com/bazelbuild/bazel/issues/18958
 ###############################################################################
 
+"""Module definition for the monorepo.
+
+This module defines all external dependencies required by the monorepo,
+including rules for Python, C++, Java, and other languages.
+"""
+
 module(
     name = "monorepo",
     version = "0.1.0",
@@ -30,6 +36,8 @@ bazel_dep(name = "rules_java", version = "7.1.0")
 
 # JVM external rules for Maven dependencies
 bazel_dep(name = "rules_jvm_external", version = "5.3")
+
+# Note: We're using filegroups for shell scripts instead of sh_binary
 
 # Note: During the migration period, we're keeping the original Maven repository
 # from WORKSPACE active and not defining a duplicate one in MODULE.bazel.

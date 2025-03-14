@@ -91,16 +91,20 @@ jobs:
 
     - name: Install Buildifier
       run: |
-        go install github.com/bazelbuild/buildtools/buildifier@latest
-        echo "${GOPATH:-$HOME/go}/bin" >> $GITHUB_PATH
+        # Use our setup script instead of installing via Go
+        chmod +x ./setup_buildifier.sh
+        ./setup_buildifier.sh
+        echo "$(pwd)/bin" >> $GITHUB_PATH
     
     - name: Lint Bazel files
       run: |
-        bazel run //:buildifier.check
+        chmod +x ./buildifier.check.sh
+        ./buildifier.check.sh
     
-    - name: Install Python linting tools
+    - name: Setup Python linting environment
       run: |
-        pip install pylint black
+        chmod +x ./setup_lint_venv.sh
+        ./setup_lint_venv.sh
     
     - name: Lint Python files
       run: |
