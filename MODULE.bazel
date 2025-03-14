@@ -13,7 +13,7 @@ module(
 # Incremental migration approach
 # Successfully migrated: Python rules, C++ rules, Java rules
 # Currently migrating: Maven dependencies for Kotlin
-# 
+#
 # Test commands:
 # Python: bazel test //python:calculator_test
 # Java: bazel test //java:calculator_test
