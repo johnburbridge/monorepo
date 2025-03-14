@@ -43,17 +43,17 @@ monorepo/
 ### Java Project
 A simple calculator implementation with basic arithmetic operations.
 - Main class: `Calculator` with add, subtract, multiply, and divide operations
-- Tests using JUnit 4
+- Tests using JUnit Jupiter 5.10.1
 
 ### Kotlin Project
 String utility functions implementation.
 - Main class: `StringUtils` with reverse, isPalindrome, and countWords functions
-- Tests using Kotlin Test framework
+- Tests using Kotlin Test framework with JUnit 5
 
 ### Python Project
 A calculator implementation with basic arithmetic operations.
 - Main class: `Calculator` with add, subtract, multiply, and divide operations
-- Tests using pytest
+- Tests using Python's built-in unittest framework
 
 ## Building and Testing
 
@@ -101,14 +101,14 @@ bazel test //python:calculator_test
 The project uses the following major dependencies:
 
 ### Java
-- JUnit 4.13.2 for testing
+- JUnit Jupiter 5.10.1 for testing
 
 ### Kotlin
 - Kotlin 1.9.0
-- Kotlin Test framework
+- Kotlin Test framework with JUnit 5 integration
 
 ### Python
-- pytest 7.4.3 for testing
+- Python's built-in unittest framework
 
 ## Configuration Files
 
@@ -121,8 +121,9 @@ Contains Bzlmod configuration for:
 
 ### WORKSPACE
 Currently using a hybrid approach during migration to Bzlmod:
-- Maintains Kotlin rules (not yet fully supported in Bzlmod)
-- Manages Maven dependencies for all languages
+- Maintains Kotlin rules (version 1.8.1, not yet fully supported in Bzlmod)
+- Python rules (version 0.7.0 in WORKSPACE, but 0.23.1 in MODULE.bazel)
+- Manages Maven dependencies for all languages (JUnit Jupiter, Kotlin Test)
 - Will eventually be fully migrated to MODULE.bazel
 
 ## Bzlmod Migration Status
