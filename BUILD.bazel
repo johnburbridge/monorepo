@@ -1,0 +1,55 @@
+load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
+
+package(default_visibility = ["//visibility:public"])
+
+# Make scripts available as filegroups
+filegroup(
+    name = "buildifier",
+    srcs = ["buildifier.sh"],
+)
+
+filegroup(
+    name = "buildifier.check",
+    srcs = ["buildifier.check.sh"],
+)
+
+filegroup(
+    name = "pylint",
+    srcs = ["pylint.sh"],
+)
+
+filegroup(
+    name = "black.check",
+    srcs = ["black_check.sh"],
+)
+
+filegroup(
+    name = "python.lint",
+    srcs = ["python_lint.sh"],
+)
+
+filegroup(
+    name = "ktlint.check",
+    srcs = ["ktlint_check.sh"],
+)
+
+filegroup(
+    name = "ktlint.format",
+    srcs = ["ktlint_format.sh"],
+)
+
+filegroup(
+    name = "setup.ktlint",
+    srcs = ["setup_ktlint.sh"],
+)
+
+# Workspace-wide settings and flags can be added here
+string_flag(
+    name = "environment",
+    build_setting_default = "dev",
+    values = [
+        "dev",
+        "test",
+        "prod",
+    ],
+)

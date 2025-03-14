@@ -1,0 +1,25 @@
+[MASTER]
+# Add the src directory to the Python path for imports
+init-hook='import sys; sys.path.append("python/src")'
+
+[MESSAGES CONTROL]
+# Disable specific pylint warnings
+disable=
+    C0111, # missing docstring
+    C0103, # invalid name
+    C0303, # trailing whitespace
+    C0330, # bad continuation
+    C1801, # len-as-condition
+    W0511, # fixme
+    R0903, # too-few-public-methods
+    R0913, # too-many-arguments
+
+[FORMAT]
+# Maximum line length
+max-line-length=100
+
+[REPORTS]
+# Set the output format
+output-format=text
+reports=yes
+evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)

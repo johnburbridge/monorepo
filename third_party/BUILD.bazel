@@ -1,3 +1,13 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+
 package(default_visibility = ["//visibility:public"])
 
 exports_files(["requirements.txt"])
+
+# Python virtual environment with linting tools
+py_binary(
+    name = "lint_venv",
+    srcs = ["lint_venv.py"],
+    data = ["requirements.txt"],
+    python_version = "PY3",
+)
