@@ -162,6 +162,38 @@ When adding new code to this monorepo:
 3. Add tests in the test directory
 4. Run `bazel test //...` to verify everything works
 
+## Code Formatting
+
+This repository uses [buildifier](https://github.com/bazelbuild/buildtools/blob/master/buildifier/README.md) to format Bazel files (BUILD.bazel, WORKSPACE, and .bzl files) according to a standard style.
+
+### Installing Buildifier
+
+You can install buildifier in several ways:
+
+#### Using Go
+```bash
+go install github.com/bazelbuild/buildtools/buildifier@latest
+```
+
+#### Using Homebrew (macOS)
+```bash
+brew install buildifier
+```
+
+### Using the Bazel Target
+
+This repository includes a convenient Bazel target to format all Bazel files:
+
+```bash
+# Format all Bazel files in the repository
+bazel run //:buildifier
+
+# Check formatting without making changes (useful for CI)
+bazel run //:buildifier.check
+```
+
+The buildifier target is integrated into the CI workflow to ensure consistent formatting across the codebase.
+
 ## Contributing
 
 1. Fork the repository
