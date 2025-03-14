@@ -28,6 +28,21 @@ filegroup(
     srcs = ["python_lint.sh"],
 )
 
+filegroup(
+    name = "ktlint.check",
+    srcs = ["ktlint_check.sh"],
+)
+
+filegroup(
+    name = "ktlint.format",
+    srcs = ["ktlint_format.sh"],
+)
+
+filegroup(
+    name = "setup.ktlint",
+    srcs = ["setup_ktlint.sh"],
+)
+
 # Workspace-wide settings and flags can be added here
 string_flag(
     name = "environment",

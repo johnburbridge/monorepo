@@ -164,36 +164,34 @@ When adding new code to this monorepo:
 
 ## Code Formatting and Linting
 
-This repository uses several tools to ensure code quality and consistent formatting.
+This repository uses several tools to ensure code quality and consistent formatting across all languages.
 
 ### Bazel Files Formatting (buildifier)
 
 This repository uses [buildifier](https://github.com/bazelbuild/buildtools/blob/master/buildifier/README.md) to format Bazel files (BUILD.bazel, WORKSPACE, and .bzl files) according to a standard style.
 
-#### Installing Buildifier
-
-You can install buildifier in several ways:
-
-##### Using Go
-```bash
-go install github.com/bazelbuild/buildtools/buildifier@latest
-```
-
-##### Using Homebrew (macOS)
-```bash
-brew install buildifier
-```
-
-#### Using the Bazel Target
-
-This repository includes a convenient Bazel target to format all Bazel files:
+#### Using the Buildifier Scripts
 
 ```bash
 # Format all Bazel files in the repository
-bazel run //:buildifier
+./buildifier.sh
 
 # Check formatting without making changes (useful for CI)
-bazel run //:buildifier.check
+./buildifier.check.sh
+```
+
+#### Automatic Installation
+
+The buildifier scripts will automatically check if buildifier is installed:
+
+1. If buildifier is installed globally, it will use that installation
+2. If not, it will check for a local installation in `./bin/buildifier`
+3. If no local installation exists, it will download and install buildifier locally
+
+You can also manually set up buildifier with:
+
+```bash
+./setup_buildifier.sh
 ```
 
 ### Python Code Quality and Formatting
@@ -228,7 +226,43 @@ You can also manually create the virtual environment with:
 
 This will create a `lint_venv` directory in the root of the repository with pylint and black installed.
 
-All code quality and formatting tools are integrated into the CI workflow to ensure consistent code quality across the codebase.
+### Kotlin Code Quality and Formatting (ktlint)
+
+This repository uses [ktlint](https://github.com/pinterest/ktlint) to enforce Kotlin coding style and conventions.
+
+#### Using the Ktlint Scripts
+
+```bash
+# Format all Kotlin files in the repository
+./ktlint_format.sh
+
+# Check formatting without making changes (useful for CI)
+./ktlint_check.sh
+```
+
+#### Automatic Installation
+
+The ktlint scripts will automatically check if ktlint is installed:
+
+1. If ktlint is installed globally, it will use that installation
+2. If not, it will check for a local installation in `./bin/ktlint`
+3. If no local installation exists, it will download and install ktlint locally
+
+You can also manually set up ktlint with:
+
+```bash
+./setup_ktlint.sh
+```
+
+### CI Integration
+
+All code quality and formatting tools are integrated into the CI workflow to ensure consistent code quality across the codebase. The CI workflow:
+
+1. Sets up all necessary linting tools automatically
+2. Runs checks for all supported languages (Bazel, Python, Kotlin)
+3. Fails the build if any linting issues are found
+
+This ensures that all code merged into the repository meets the defined quality standards.
 
 ## Contributing
 

@@ -1,7 +1,7 @@
 """Unit tests for the Calculator class."""
 
 import unittest
-from calculator import Calculator
+from example.calculator import Calculator
 
 
 class TestCalculator(unittest.TestCase):

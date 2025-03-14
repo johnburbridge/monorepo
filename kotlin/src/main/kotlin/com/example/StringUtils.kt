@@ -13,4 +13,4 @@ object StringUtils {
     fun countWords(input: String): Int {
         return input.split(Regex("\\s+")).filter { it.isNotBlank() }.size
     }
-} 
+}
