@@ -2,16 +2,30 @@ load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
 
 package(default_visibility = ["//visibility:public"])
 
-# Buildifier target for formatting Bazel files
-sh_binary(
+# Make scripts available as filegroups
+filegroup(
     name = "buildifier",
     srcs = ["buildifier.sh"],
 )
 
-# Buildifier check target (for CI)
-sh_binary(
+filegroup(
     name = "buildifier.check",
     srcs = ["buildifier.check.sh"],
+)
+
+filegroup(
+    name = "pylint",
+    srcs = ["pylint.sh"],
+)
+
+filegroup(
+    name = "black.check",
+    srcs = ["black_check.sh"],
+)
+
+filegroup(
+    name = "python.lint",
+    srcs = ["python_lint.sh"],
 )
 
 # Workspace-wide settings and flags can be added here

@@ -104,8 +104,7 @@ jobs:
     
     - name: Lint Python files
       run: |
-        pylint $(find . -name "*.py" -not -path "./bazel-*/*")
-        black --check $(find . -name "*.py" -not -path "./bazel-*/*")
+        ./python_lint.sh
     
     - name: Install Kotlin linting tools
       run: |

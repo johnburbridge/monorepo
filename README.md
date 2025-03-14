@@ -162,25 +162,29 @@ When adding new code to this monorepo:
 3. Add tests in the test directory
 4. Run `bazel test //...` to verify everything works
 
-## Code Formatting
+## Code Formatting and Linting
+
+This repository uses several tools to ensure code quality and consistent formatting.
+
+### Bazel Files Formatting (buildifier)
 
 This repository uses [buildifier](https://github.com/bazelbuild/buildtools/blob/master/buildifier/README.md) to format Bazel files (BUILD.bazel, WORKSPACE, and .bzl files) according to a standard style.
 
-### Installing Buildifier
+#### Installing Buildifier
 
 You can install buildifier in several ways:
 
-#### Using Go
+##### Using Go
 ```bash
 go install github.com/bazelbuild/buildtools/buildifier@latest
 ```
 
-#### Using Homebrew (macOS)
+##### Using Homebrew (macOS)
 ```bash
 brew install buildifier
 ```
 
-### Using the Bazel Target
+#### Using the Bazel Target
 
 This repository includes a convenient Bazel target to format all Bazel files:
 
@@ -192,7 +196,39 @@ bazel run //:buildifier
 bazel run //:buildifier.check
 ```
 
-The buildifier target is integrated into the CI workflow to ensure consistent formatting across the codebase.
+### Python Code Quality and Formatting
+
+This repository uses pylint for code quality checks and black for code formatting. These tools are automatically installed in a Python virtual environment when you run the linting scripts.
+
+#### Using the Linting Scripts
+
+```bash
+# Run both pylint and black checks in one command
+./python_lint.sh
+
+# Or run them individually
+./pylint.sh       # Run pylint only
+./black_check.sh  # Run black check only
+```
+
+#### How It Works
+
+The linting scripts automatically:
+1. Create a Python virtual environment if it doesn't exist
+2. Install pylint and black in the virtual environment
+3. Run the linting tools on all Python files in the repository
+
+#### Manual Setup (if needed)
+
+You can also manually create the virtual environment with:
+
+```bash
+./setup_lint_venv.sh
+```
+
+This will create a `lint_venv` directory in the root of the repository with pylint and black installed.
+
+All code quality and formatting tools are integrated into the CI workflow to ensure consistent code quality across the codebase.
 
 ## Contributing
 
