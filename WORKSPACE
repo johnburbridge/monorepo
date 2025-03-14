@@ -98,6 +98,7 @@ maven_install(
         "org.junit.platform:junit-platform-reporting:1.10.1",
         "org.junit.platform:junit-platform-console:1.10.1",
         "org.jetbrains.kotlin:kotlin-test-junit5:1.9.0",
+        "org.jetbrains.kotlin:kotlin-test:1.9.0",
     ],
     repositories = [
         "https://repo1.maven.org/maven2",

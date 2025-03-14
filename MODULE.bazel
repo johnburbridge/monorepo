@@ -4,3 +4,33 @@
 #
 # For more details, please check https://github.com/bazelbuild/bazel/issues/18958
 ###############################################################################
+
+module(
+    name = "monorepo",
+    version = "0.1.0",
+)
+
+# Incremental migration approach
+# Successfully migrated: Python rules, C++ rules, Java rules
+# Currently migrating: Maven dependencies for Kotlin
+# 
+# Test commands:
+# Python: bazel test //python:calculator_test
+# Java: bazel test //java:calculator_test
+# All: bazel test //...
+
+# Python rules
+bazel_dep(name = "rules_python", version = "0.23.1")
+
+# C++ rules
+bazel_dep(name = "rules_cc", version = "0.0.9")
+
+# Java rules
+bazel_dep(name = "rules_java", version = "7.1.0")
+
+# JVM external rules for Maven dependencies
+bazel_dep(name = "rules_jvm_external", version = "5.3")
+
+# Note: During the migration period, we're keeping the original Maven repository
+# from WORKSPACE active and not defining a duplicate one in MODULE.bazel.
+# This avoids conflicts between the two configurations.

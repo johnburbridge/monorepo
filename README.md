@@ -7,7 +7,7 @@ This repository demonstrates a multi-language monorepo setup using Bazel with Bz
 ```
 monorepo/
 ├── MODULE.bazel          # Bzlmod configuration
-├── WORKSPACE.bazel       # Bazel workspace configuration
+├── WORKSPACE             # Bazel workspace configuration (hybrid approach)
 ├── third_party/         # Third-party dependencies
 │   └── requirements.txt  # Python dependencies
 ├── java/                # Java project
@@ -113,25 +113,44 @@ The project uses the following major dependencies:
 ## Configuration Files
 
 ### MODULE.bazel
-Contains Bzlmod configuration and dependencies:
-- rules_java 7.3.0
-- rules_kotlin 1.9.0
-- rules_python 0.26.0
-- JUnit 4.13.2
-- Kotlin 1.9.0
-- pytest 7.4.3
+Contains Bzlmod configuration for:
+- Python rules (version 0.23.1)
+- C++ rules (version 0.0.9)
+- Java rules (version 7.1.0)
+- JVM External rules (version 5.3)
 
-### WORKSPACE.bazel
-Configures the build environment for all languages:
-- Java toolchain and dependencies
-- Kotlin toolchain and repositories
-- Python toolchain and pip dependencies
+### WORKSPACE
+Currently using a hybrid approach during migration to Bzlmod:
+- Maintains Kotlin rules (not yet fully supported in Bzlmod)
+- Manages Maven dependencies for all languages
+- Will eventually be fully migrated to MODULE.bazel
 
-### BUILD.bazel Files
-Each language directory contains a BUILD.bazel file that defines:
-- Library targets
-- Test targets
-- Dependencies between targets
+## Bzlmod Migration Status
+
+This project is in the process of migrating from WORKSPACE to Bzlmod (MODULE.bazel). We're using a hybrid approach where:
+
+1. **MODULE.bazel** manages:
+   - Python rules
+   - C++ rules
+   - Java rules
+   - JVM External rules
+
+2. **WORKSPACE** still manages:
+   - Kotlin rules (not yet fully supported in Bzlmod)
+   - Maven dependencies (to avoid conflicts during migration)
+
+This hybrid approach allows us to incrementally migrate to Bzlmod while maintaining compatibility with all language components, especially Kotlin.
+
+### Migration Benefits
+- More modular dependency management
+- Better version control
+- Improved reproducibility
+- Future-proof configuration
+
+### Future Plans
+- Complete migration to Bzlmod once Kotlin rules are better supported
+- Move Maven dependencies to MODULE.bazel
+- Eventually remove the WORKSPACE file entirely
 
 ## Adding New Code
 
