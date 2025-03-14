@@ -1,0 +1,32 @@
+load("@io_bazel_rules_kotlin//kotlin:jvm.bzl", "kt_jvm_library", "kt_jvm_test")
+
+kt_jvm_library(
+    name = "string_utils",
+    srcs = ["src/main/kotlin/com/example/StringUtils.kt"],
+    visibility = ["//visibility:public"],
+)
+
+# Run tests with: bazel test //...
+
+kt_jvm_test(
+    name = "string_utils_test",
+    srcs = ["src/test/kotlin/com/example/StringUtilsTest.kt"],
+    test_class = "com.example.StringUtilsTest",
+    args = [
+        "--select-package=com.example",
+        "--details=tree",
+    ],
+    main_class = "org.junit.platform.console.ConsoleLauncher",
+    deps = [
+        ":string_utils",
+        "@maven//:org_jetbrains_kotlin_kotlin_test",
+        "@maven//:org_jetbrains_kotlin_kotlin_test_junit5",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+    ],
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_console",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+    ],
+)
